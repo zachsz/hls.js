@@ -52,7 +52,9 @@ class XhrLoader {
     try {
       if (xhrSetup) {
         try {
-          xhrSetup(xhr, context.url);
+          // letting xhrSetup change the context.url with a return value
+          // this can be used to set queryParams on all hls manifest requests
+          context.url = xhrSetup(xhr, context.url) || context.url;
         } catch (e) {
           // fix xhrSetup: (xhr, url) => {xhr.setRequestHeader("Content-Language", "test");}
           // not working, as xhr.setRequestHeader expects xhr.readyState === OPEN
